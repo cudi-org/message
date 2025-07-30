@@ -1,0 +1,713 @@
+:root {
+  --azul: #005baa;
+  --celeste: #009fd9;
+  --azul-oscuro: #003b75;
+  --amarillo: #f9c74f;
+  --gris-fondo: #f2f4f8;
+  --rojo-claro: #dc3545; /* Añadido para botones de advertencia */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--gris-fondo);
+  color: #222;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  scroll-padding-bottom: 250px;
+  overflow-y: auto;
+}
+
+/* El header y nav son los mismos, no necesitan cambios por los nuevos elementos de la app */
+header.site-header {
+  background: linear-gradient(to right, var(--azul), var(--celeste));
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+nav.navbar {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+nav.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+
+nav.navbar a:hover {
+  color: var(--amarillo);
+}
+
+.dropdown {
+  position: relative;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  background-color: var(--azul-oscuro);
+  border-radius: 8px;
+  top: 100%;
+  left: 0;
+  padding: 10px 0;
+  min-width: 180px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  list-style: none;
+}
+
+.submenu li {
+  list-style: none;
+}
+
+.submenu a {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s;
+  white-space: nowrap;
+}
+
+.submenu a:hover {
+  background-color: var(--celeste);
+}
+
+.dropdown:hover .submenu {
+  display: block;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  z-index: 1001;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Contenedor principal de la aplicación, ahora es #app */
+#app {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex; /* Esto era `main.container`, ahora se aplica al #app */
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.5s ease-in-out;
+  width: calc(100% - 40px);
+  position: relative; /* Para posicionar el modal */
+  min-height: 400px; /* Asegura un mínimo de altura */
+}
+
+h2.section-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: var(--azul);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Se mantiene `.buttons` para grupos de botones */
+.buttons {
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Estilo general para todos los botones */
+button {
+  padding: 12px;
+  font-size: 1rem;
+  background-color: var(--azul);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: var(--azul-oscuro);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Botones específicos */
+.primary-btn {
+  background-color: var(--azul);
+}
+.primary-btn:hover {
+  background-color: var(--azul-oscuro);
+}
+
+.secondary-btn {
+  background-color: #6c757d; /* Gris para botones secundarios */
+}
+.secondary-btn:hover {
+  background-color: #5a6268;
+}
+
+.small-btn {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  min-width: unset; /* Deshace el min-width general si lo hereda */
+  flex-grow: 0;
+}
+
+.warn-btn {
+  background-color: var(--rojo-claro);
+}
+.warn-btn:hover {
+  background-color: #c82333;
+}
+
+footer {
+  background: var(--azul-oscuro);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Nuevas clases para las pantallas y su activación */
+.screen {
+  width: 100%;
+  padding: 20px 0;
+  display: none; /* Oculta todas las pantallas por defecto */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.screen.active {
+  display: flex; /* Muestra solo la pantalla activa */
+}
+
+/* Pantalla de Bienvenida (Onboarding) */
+#onboarding-screen h1 {
+  font-size: 32px;
+  color: var(--azul);
+  margin-bottom: 15px;
+}
+
+#onboarding-screen p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.onboarding-actions {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.onboarding-actions button {
+  flex: 1;
+  min-width: 200px;
+  padding: 15px 25px;
+  font-size: 1.1rem;
+}
+
+/* Pantalla de Gestión de Identidad (ahora es #identity-management-screen) */
+#identity-management-screen {
+  padding-top: 0; /* Ya tienes esta regla, se mantiene */
+  text-align: left; /* Ajustado para mejor legibilidad de textos largos */
+}
+
+#identity-management-screen h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: var(--azul);
+  font-weight: 600;
+  text-align: center; /* Vuelve a centrar el título principal */
+  width: 100%;
+}
+
+#identity-management-screen p {
+  text-align: left; /* Asegura que los párrafos se alineen a la izquierda */
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 400px; /* Limita el ancho para legibilidad */
+}
+
+#identity-management-screen textarea {
+  width: 100%;
+  max-width: 400px;
+  height: 100px;
+  padding: 10px;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  margin-bottom: 10px;
+  font-family: monospace;
+  background-color: #f8f8f8;
+  color: #333;
+  text-align: left;
+}
+
+#identity-management-screen .small-btn {
+  margin-bottom: 10px; /* Espacio entre botones pequeños */
+  display: inline-block; /* Para que estén en línea si hay espacio */
+  margin-right: 10px; /* Espacio entre ellos */
+}
+#identity-management-screen .small-btn:last-of-type {
+  margin-right: 0;
+}
+
+#identity-management-screen hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 400px;
+}
+
+#identity-management-screen h3 {
+  font-size: 22px;
+  color: var(--azul-oscuro);
+  margin-top: 20px;
+  margin-bottom: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+/* Input para Peer Remoto y Botón Conectar */
+#identity-management-screen input[type="text"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+#identity-management-screen input[type="text"]:focus {
+  border-color: var(--azul);
+}
+
+#identity-management-screen #connect-btn {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+#connection-status {
+  font-weight: bold;
+  color: var(--azul);
+}
+
+/* Contenedor de mensajes (ahora solo en la pantalla principal) */
+.messages-container {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  min-height: 200px; /* Ajustado */
+  margin-top: 20px;
+}
+
+.messages-container > div {
+  /* Los divs de mensaje dentro del contenedor */
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  max-height: 300px; /* Se mantiene para scroll */
+  min-height: 100px; /* Ajustado */
+  background-color: #fcfcfc;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-container p {
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  border-radius: 15px;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+}
+
+.messages-container p.sent {
+  background-color: #e0f4ff;
+  color: #333;
+  align-self: flex-end;
+}
+
+.messages-container p.received {
+  background-color: #f0f0f0;
+  color: #333;
+  align-self: flex-start;
+}
+
+.messages-container p.system {
+  background-color: #fff3cd; /* Amarillo claro para mensajes del sistema */
+  color: #856404;
+  font-style: italic;
+  font-size: 0.85rem;
+  align-self: center;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px 0;
+}
+.messages-container p.error {
+  background-color: #f8d7da; /* Rojo claro para errores del sistema */
+  color: #721c24;
+  font-style: italic;
+  font-size: 0.85rem;
+  align-self: center;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px 0;
+}
+
+.messages-container p:last-child {
+  margin-bottom: 0;
+}
+
+/* Contenedor de entrada de mensaje */
+#chatInputContainer {
+  display: flex;
+  padding: 10px 15px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  width: 100%;
+}
+
+#message-input {
+  /* Usamos #message-input en lugar de #chatInput */
+  flex-grow: 1;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  margin-right: 10px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#message-input:focus {
+  border-color: var(--azul);
+}
+
+#send-message-btn {
+  /* Usamos #send-message-btn en lugar de #sendChatBtn */
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: var(--azul);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+#send-message-btn:hover {
+  background-color: var(--azul-oscuro);
+}
+
+/* Borramos las reglas para iconos dentro del botón de enviar si no se van a usar */
+#send-message-btn .send-icon-img,
+#send-message-btn .send-icon {
+  display: none;
+}
+
+#send-message-btn::before {
+  content: "Enviar";
+  display: block;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  font-size: 1rem;
+}
+
+/* --- Modal de Contraseña --- */
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Posicionamiento fijo sobre todo */
+  z-index: 1002; /* Por encima de todo */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
+  justify-content: center; /* Centrar contenido horizontalmente */
+  align-items: center; /* Centrar contenido verticalmente */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
+}
+
+.modal-content h3 {
+  color: var(--azul);
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.modal-content input[type="password"] {
+  width: calc(100% - 20px);
+  padding: 12px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.modal-content input[type="password"]:focus {
+  border-color: var(--azul);
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+}
+
+.close-button {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #333;
+  text-decoration: none;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Media Queries (ajustadas para los nuevos elementos) */
+@media (max-width: 768px) {
+  #app {
+    margin: 20px auto;
+    padding: 20px;
+  }
+  h2.section-title {
+    font-size: 24px;
+  }
+
+  /* Ajustes para botones en pantallas pequeñas */
+  .onboarding-actions button {
+    flex: 1 1 100%;
+    margin-bottom: 10px; /* Espacio entre ellos en columna */
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+  .onboarding-actions button:last-child {
+    margin-bottom: 0;
+  }
+
+  #identity-management-screen .small-btn {
+    flex: 1 1 100%; /* Ocupar todo el ancho */
+    margin-bottom: 10px;
+    margin-right: 0; /* Eliminar margen derecho */
+  }
+
+  /* Botón de enviar mensaje con icono en móvil */
+  #send-message-btn {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  #send-message-btn::before {
+    content: none;
+  }
+
+  /* Necesitarías un icono SVG o PNG para esto en tu carpeta icons */
+  /* Puedes usar un SVG directamente en el HTML o una imagen */
+  /* Por ejemplo, si tienes un icono send.png en ./icons/ */
+  #send-message-btn .send-icon-img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* Para que sea blanco */
+  }
+  /* O si usas una clase CSS con background-image */
+  #send-message-btn .send-icon {
+    /* Asume que tienes una clase con el icono de fondo */
+    display: block;
+    background-image: url("./icons/send.png"); /* Asegúrate de que esta ruta sea correcta */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    width: 100%;
+    height: 100%;
+  }
+
+  #chatInputContainer {
+    align-items: center;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+  .modal-content h3 {
+    font-size: 1.3rem;
+  }
+  .modal-content p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #app {
+    padding: 15px;
+    margin: 15px auto;
+  }
+  h2.section-title {
+    font-size: 22px;
+  }
+  .onboarding-actions button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  #identity-management-screen p,
+  .modal-content p {
+    font-size: 0.9rem;
+  }
+  .modal-content input,
+  .modal-content button {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CUDI Messenger</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="manifest" href="./json/manifest.json" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./icons/logo-removebg-preview.png"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <section id="onboarding-screen" class="screen active">
+        <h1>Bienvenido a CUDI Messenger</h1>
+        <p>
+          Tu privacidad es nuestra prioridad. CUDI es un mensajero P2P y cifrado
+          de extremo a extremo.
+        </p>
+        <div class="onboarding-actions">
+          <button id="create-identity-btn" class="primary-btn">
+            Crear Nueva Identidad
+          </button>
+          <button id="restore-identity-btn" class="secondary-btn">
+            Restaurar Identidad
+          </button>
+        </div>
+      </section>
+
+      <section id="identity-management-screen" class="screen">
+        <h2>Mi Identidad y Conexiones</h2>
+        <p>ID de Peer: <span id="my-peer-id">Cargando...</span></p>
+        <p>Clave Pública (Base64Url):</p>
+        <textarea id="my-public-key" readonly rows="4" cols="50"></textarea>
+        <button id="copy-public-key-btn" class="small-btn">
+          Copiar Clave Pública
+        </button>
+        <button id="export-identity-btn" class="small-btn">
+          Exportar Identidad (Cifrada)
+        </button>
+        <button id="reset-app-btn" class="small-btn warn-btn">
+          Reiniciar Aplicación (Borrar Identidad)
+        </button>
+
+        <hr />
+
+        <h3>Conectar a un Peer</h3>
+        <input
+          type="text"
+          id="remote-peer-id-input"
+          placeholder="ID de Peer del contacto"
+        />
+        <button id="connect-btn" class="primary-btn">Conectar</button>
+        <p>
+          Estado de la conexión:
+          <span id="connection-status">Desconectado</span>
+        </p>
+
+        <hr />
+
+        <h3>Enviar Mensaje</h3>
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Escribe tu mensaje..."
+        />
+        <button id="send-message-btn" class="primary-btn">Enviar</button>
+
+        <div id="messages-display" class="messages-container"></div>
+      </section>
+
+      <div id="password-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h3 id="modal-title">Establecer Contraseña</h3>
+          <p id="modal-message">
+            Introduce una contraseña para cifrar/descifrar tu identidad.
+          </p>
+          <input
+            type="password"
+            id="password-input"
+            placeholder="Contraseña"
+            autocomplete="new-password"
+          />
+          <input
+            type="password"
+            id="confirm-password-input"
+            placeholder="Confirmar Contraseña"
+            style="display: none"
+          />
+          <button id="password-action-btn" class="primary-btn">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script type="module" src="./js/crypto.js"></script>
+    <script type="module" src="./js/webrtc.js"></script>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
